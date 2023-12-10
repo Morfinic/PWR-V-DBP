@@ -3,3 +3,26 @@
 {% block title %}
     Szachownica
 {% endblock %}
+
+{% block content %}
+    <div class="m-4 px-5 py-10 bg-gray-300 rounded-xl">
+        <h2 class="mb-10 text-2xl text-center font-semibold">Ostatnie sztuki!</h2>
+
+        <div class="grid grid-cols-3 gap-2">
+            {% for produkt in produkty %}
+                <a href="#">
+                    <div>
+                        <img src="{{ produkt.zdjecie.url }}" class="rounded-t-lg" alt="produkt_img">
+                    </div>
+
+                    <div class="p-6 bg-white rounded-b-xl">
+                        <h2 class="text-2xl">{{ produkt.nazwa }}</h2>
+                        <p class="text-gray-500">Cena: {{ produkt.cena }} zł</p>
+                        <p class="text-gray-500">Wiek: {{ produkt.wiek }}+</p>
+                        <p class="text-gray-500">{{ produkt.tematyka }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
