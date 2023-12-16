@@ -1,0 +1,66 @@
+{% extends "core/base.html" %}
+
+{% block title %}Lista produktów{% endblock %}
+
+{% block content %}
+    <div class="px-2 py-6 m-6 bg-gray-200 rounded-xl flex items-center">
+        <div class="bg-gray-400 p-2 mx-2 rounded-xl w-1/5">
+            <form action="." method="POST">
+                {% csrf_token %}
+
+                <div class="mb-2">
+                    <label class="inline-block mb-1 font-semibold text-2xl">Sortowanie</label>
+                    {{ form.sortowanie }}
+                </div>
+
+                <div>
+                    <p class="inline-block mb-1 font-semibold text-2xl">Filtrowanie</p><br>
+
+                    <div>
+                        <label class="inline-block mb-1 font-semibold">Wydawca</label><br>
+                        {{ form.wydawca }}
+                    </div>
+
+                    <div>
+                        <label class="inline-block mb-1 font-semibold">Ilość</label><br>
+                        Od {{ form.ilosc_min }} do {{ form.ilosc_max }}
+                    </div>
+
+                    <div>
+                        <label class="inline-block mb-1 font-semibold">Cena</label><br>
+                        Od {{ form.cena_min }} do {{ form.cena_max }}
+                    </div>
+
+                    <div>
+                        <label class="inline-block mb-1 font-semibold">Wiek</label><br>
+                        Od {{ form.wiek_min }} do {{ form.wiek_max }}
+                    </div>
+                </div>
+
+                <div class="w-full">
+                    <button type="submit" class="p-2 my-2 w-1/2 bg-green-600 hover:bg-green-800 font-semibold text-lg rounded-xl">Filtruj/Sortuj</button>
+                    <a href="{% url 'items:item_list' %}" class="p-2 my-2 w-1/2 bg-red-600 hover:bg-red-800 font-semibold text-lg rounded-xl">Reset</a>
+                </div>
+            </form>
+        </div>
+
+        <div class="w-4/5">
+            {% for produkt in produkty %}
+                <a href="#" class="flex items-center my-2 border-solid border-2 border-sky-500">
+                        <div class="w-1/5">
+                            <img src="{{ produkt.zdjecie.url }}" alt="produkt_img">
+                        </div>
+
+                        <div class="p-6 bg-white rounded-r-xl h-full w-4/5">
+                            <h2 class="text-2xl">{{ produkt.nazwa }}</h2>
+                            <p class="text-gray-500">Cena: {{ produkt.cena }} zł</p>
+                            <p class="text-gray-500">Wiek: {{ produkt.wiek }}+</p>
+                            <p class="text-gray-500">{{ produkt.tematyka }}</p>
+                            <p class="text-gray-500">Ilość: {{ produkt.ilosc }}</p>
+                            <p class="text-gray-500">Wydawca: {{ produkt.wydawca }}</p>
+                        </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
