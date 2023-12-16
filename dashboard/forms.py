@@ -14,7 +14,7 @@ class SignUpForm(UserCreationForm):
     }))
     email = forms.CharField(widget=forms.EmailInput(attrs={
         "placeholder": "Adres email",
-        "class": "",
+        "class": "w-full py-4 px-6 rounded-xl",
         # "requiered": True
     }))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={

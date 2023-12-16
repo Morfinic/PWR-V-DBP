@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
+from .models import Zamowienia
 
 # Create your views here.
 
@@ -10,7 +11,7 @@ def signup(request):
 
         if form.is_valid():
             form.save()
-            return redirect("/")
+            return redirect("dashboard:login")
     else:
         form = SignUpForm()
 
@@ -21,3 +22,14 @@ def signup(request):
 
 def logout(request):
     logout(request)
+
+
+def orders(request):
+    if request.user.is_superuser:
+        orders = Zamowienia.objects.all()
+    else:
+        orders = Zamowienia.objects.filter(uzytkownik=request.user.pk)
+
+    return render(request, "zamowienia.html", context={
+        "orders": orders
+    })
