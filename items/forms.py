@@ -1,5 +1,5 @@
 from django import forms
-from .models import Wydawca
+from .models import Wydawca, Produkt, Tematyka
 
 
 def get_wydawca_list():
@@ -43,3 +43,104 @@ class FilterForm(forms.Form):
     wiek_max = forms.IntegerField(widget=forms.NumberInput(attrs={
         "class": "w-1/3 py-2 px-1 my-2 rounded-xl"
     }), initial=500)
+
+
+INPUT_CLASSES = "w-full py-4 px-6 rounded-xl border"
+
+
+class EditItemForm(forms.ModelForm):
+    class Meta:
+        model = Produkt
+        fields = ("nazwa", "zdjecie", "wydawca", "ilosc", "cena", "wiek", "tematyka", "trudnosc")
+
+        widgets = {
+            "nazwa": forms.TextInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "zdjecie": forms.FileInput(attrs={
+                "class": INPUT_CLASSES,
+                # "required": True
+            }),
+            "wydawca": forms.RadioSelect(attrs={
+                "class": "rounded-xl border"
+            }),
+            "ilosc": forms.NumberInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "cena": forms.NumberInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "wiek": forms.NumberInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "tematyka": forms.RadioSelect(attrs={
+                "class": "rounded-xl border"
+            }),
+            "trudnosc": forms.TextInput(attrs={
+                "class": INPUT_CLASSES
+            })
+        }
+
+
+class NewItemForm(forms.ModelForm):
+    class Meta:
+        model = Produkt
+        fields = ("nazwa", "zdjecie", "wydawca", "ilosc", "cena", "wiek", "tematyka", "trudnosc")
+
+        widgets = {
+            "nazwa": forms.TextInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "zdjecie": forms.FileInput(attrs={
+                "class": INPUT_CLASSES,
+                "required": True
+            }),
+            "wydawca": forms.RadioSelect(attrs={
+                "class": "rounded-xl border"
+            }),
+            "ilosc": forms.NumberInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "cena": forms.NumberInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "wiek": forms.NumberInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "tematyka": forms.RadioSelect(attrs={
+                "class": "rounded-xl border"
+            }),
+            "trudnosc": forms.TextInput(attrs={
+                "class": INPUT_CLASSES
+            })
+        }
+
+
+class NewWydawcaForm(forms.ModelForm):
+    class Meta:
+        model = Wydawca
+        fields = ("nazwa", "mail", "adres")
+
+        widgets = {
+            "nazwa": forms.TextInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "mail": forms.TextInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+            "adres": forms.TextInput(attrs={
+                "class": INPUT_CLASSES
+            }),
+        }
+
+
+class NewTematykaForm(forms.ModelForm):
+    class Meta:
+        model = Tematyka
+        fields = ("temat",)
+
+        widgets = {
+            "temat": forms.TextInput(attrs={
+                "class": INPUT_CLASSES
+            })
+        }

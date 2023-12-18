@@ -21,6 +21,7 @@ class Tematyka(models.Model):
     class Meta:
         verbose_name_plural = "Tematyki"
 
+
     def __str__(self):
         return self.temat
 
