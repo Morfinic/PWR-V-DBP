@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Produkt
 from .forms import FilterForm
 
@@ -13,8 +13,7 @@ def item_list(request):
             ilosc__range=[form.data["ilosc_min"], form.data["ilosc_max"]],
             cena__range=[form.data["cena_min"], form.data["cena_max"]],
             wiek__range=[form.data["wiek_min"], form.data["wiek_max"]],
-        )
-        produkty.order_by(form.data["sortowanie"])
+        ).order_by(form.data["sortowanie"])
 
     else:
         form = FilterForm()
@@ -23,4 +22,12 @@ def item_list(request):
     return render(request, "item_list.html", {
         "form": form,
         "produkty": produkty
+    })
+
+
+def detail(request, pk):
+    produkt = get_object_or_404(Produkt, pk=pk)
+
+    return render(request, "detail.html", {
+        "produkt": produkt
     })
