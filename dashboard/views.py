@@ -25,7 +25,7 @@ def logout(request):
 
 
 def orders(request):
-    if request.user.is_superuser:
+    if request.user.is_admin:
         orders = Zamowienia.objects.all()
     else:
         orders = Zamowienia.objects.filter(uzytkownik=request.user.pk)

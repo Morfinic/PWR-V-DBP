@@ -11,7 +11,7 @@
         <div class="w-4/5">
             {% for order in orders %}
             <div class="border-solid border-2 border-black my-2 w-full">
-                {% if request.user.is_superuser %}
+                {% if request.user.is_admin %}
                     <h2 class="text-2xl font-semibold">{{ order.uzytkownik }}</h2>
                 {% endif %}
                     <p class="text-lg font-semibold">Numer zamówienia: {{ order.order_id }}</p>
