@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignUpForm
-from .models import Zamowienia
+from .forms import SignUpForm, SwitchStatesForm
+from .models import Zamowienia, Stan
+
 
 # Create your views here.
 
@@ -27,18 +28,26 @@ def logout(request):
 
 def orders(request):
     if request.user.is_admin:
-        orders = Zamowienia.objects.all().order_by("stan")
+        orders = Zamowienia.objects.all()
     else:
-        orders = Zamowienia.objects.filter(uzytkownik=request.user.pk).order_by("-stan")
+        orders = Zamowienia.objects.filter(uzytkownik=request.user.pk)
+
+    form = SwitchStatesForm()
 
     return render(request, "zamowienia.html", context={
-        "orders": orders
+        "orders": orders,
+        "form": form
     })
+
 
 @login_required
 def switch_status(request, pk):
-    produkt = get_object_or_404(Zamowienia, pk=pk)
-    produkt.stan = not produkt.stan
-    produkt.save()
+    if request.method == "POST":
+        order = get_object_or_404(Zamowienia, pk=pk)
+
+        form_result = SwitchStatesForm(request.POST)
+        order.stan_zamowienia = Stan.objects.get(pk=form_result["stan_zamowienia"].value())
+
+        order.save()
 
     return redirect("dashboard:orders")

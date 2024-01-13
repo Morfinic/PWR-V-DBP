@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Uzytkownik
+from .models import Uzytkownik, Zamowienia
 
 
 class SignUpForm(UserCreationForm):
@@ -36,3 +36,15 @@ class LoginForm(AuthenticationForm):
         "placeholder": "Hasło",
         "class": "w-full py-4 px-6 rounded-xl"
     }))
+
+
+class SwitchStatesForm(forms.ModelForm):
+    class Meta:
+        model = Zamowienia
+        fields = ("stan_zamowienia",)
+
+        widgets = {
+            "stan": forms.RadioSelect(attrs={
+                "class": "rounded-xl border"
+            }
+        )}

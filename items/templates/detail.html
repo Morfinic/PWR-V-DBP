@@ -9,12 +9,15 @@
         </div>
 
         <div class="p-6 w-2/3">
-            <h2 class="text-2xl">{{ produkt.nazwa }}</h2>
-            <p class="text-gray-500">Cena: {{ produkt.cena }} zł</p>
-            <p class="text-gray-500">Wiek: {{ produkt.wiek }}+</p>
-            <p class="text-gray-500">{{ produkt.tematyka }}</p>
-            <p class="text-gray-500">Ilość: {{ produkt.ilosc }}</p>
-            <p class="text-gray-500">Wydawca: {{ produkt.wydawca }}</p>
+            <h2 class="text-4xl mb-4">{{ produkt.nazwa }}</h2>
+            <div class="text-2xl">
+                <p class="text-gray-500">Cena: {{ produkt.cena }} zł</p>
+                <p class="text-gray-500">Wiek: {{ produkt.wiek }}+</p>
+                <p class="text-gray-500">{{ produkt.tematyka }}</p>
+                <p class="text-gray-500">Ilość: {{ produkt.ilosc }}</p>
+                <p class="text-gray-500">Wydawca: {{ produkt.wydawca }}</p>
+                <p class="text-gray-500">Poziom trudności: {{ produkt.trudnosc }}</p>
+            </div>
 
             {% if request.user.is_admin %}
                 <div class="p-5 m-2 bg-gray-400 rounded-xl">
@@ -31,5 +34,30 @@
                 </div>
             {% endif %}
         </div>
+    </div>
+
+        {% if random_produkty.count > 0 %}
+            <div class="m-4 px-5 py-10 bg-gray-300 rounded-xl">
+                <h2 class="mb-10 text-2xl text-center font-semibold">Podobne produkty</h2>
+
+                <div class="grid grid-cols-3 gap-2">
+                    {% for random_produkt in random_produkty %}
+                        <a href="{% url 'items:detail' random_produkt.id %}" class="flex items-center bg-white rounded-r-xl">
+                            <div class="w-2/4">
+                                <img src="{{ random_produkt.zdjecie.url }}" class="w-full h-full object-contain" alt="produkt_img">
+                            </div>
+
+                            <div class="border-l-2 border-solid border-black h-full mr-1"></div>
+
+                            <div class="p-6 w-2/4">
+                                <h2 class="text-2xl">{{ random_produkt.nazwa }}</h2>
+                                <p class="text-gray-500">Cena: {{ random_produkt.cena }} zł</p>
+                                <p class="text-gray-500">Wiek: {{ random_produkt.wiek }}+</p>
+                                <p class="text-gray-500">{{ random_produkt.tematyka }}</p>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+        {% endif %}
     </div>
 {% endblock %}

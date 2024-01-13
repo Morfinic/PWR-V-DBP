@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 import dashboard.models
+from dashboard.models import Stan
 from dashboard.views import orders
 from .models import Produkt
 from .forms import FilterForm, EditItemForm, NewItemForm, NewWydawcaForm, NewTematykaForm
@@ -42,9 +43,11 @@ def item_list_category(request, pk):
 
 def detail(request, pk):
     produkt = get_object_or_404(Produkt, pk=pk)
+    random_produkty = Produkt.objects.filter(tematyka=produkt.tematyka, pk=not pk).order_by('?')[:3]
 
     return render(request, "detail.html", {
-        "produkt": produkt
+        "produkt": produkt,
+        "random_produkty": random_produkty
     })
 
 
@@ -133,12 +136,13 @@ def new_tematyka(request):
 def new_order(request, pk):
     produkt = Produkt.objects.get(pk=pk)
     produkt_ilosc = produkt.ilosc
+    stan = Stan.objects.get(pk=1)
 
     if produkt_ilosc > 0:
         produkt_ilosc = produkt_ilosc - 1
 
         produkt.ilosc = produkt_ilosc
-        order = dashboard.models.Zamowienia(produkt=produkt, stan=False, uzytkownik=request.user)
+        order = dashboard.models.Zamowienia(produkt=produkt, stan_zamowienia=stan, uzytkownik=request.user)
 
         order.save()
         produkt.save()
