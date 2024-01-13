@@ -27,4 +27,14 @@
             {% endfor %}
         </div>
     </div>
+
+    <div class="m-4 px-5 py-10 bg-gray-300 rounded-xl">
+        <h2 class="mb-10 text-2xl text-center font-semibold">Kategoire</h2>
+
+        {% for temat in tematy %}
+            <a href="{% url 'items:item_list_category' temat.id %}" class="inline mx-2 p-4 bg-white rounded-xl font-semibold text-4xl border-solid border-2 border-black">
+                {{ temat }}
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}

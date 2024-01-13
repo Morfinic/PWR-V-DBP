@@ -30,6 +30,16 @@ def item_list(request):
     })
 
 
+def item_list_category(request, pk):
+    form = FilterForm()
+    produkty = Produkt.objects.filter(tematyka=pk)
+
+    return render(request, "item_list.html", {
+        "form": form,
+        "produkty": produkty
+    })
+
+
 def detail(request, pk):
     produkt = get_object_or_404(Produkt, pk=pk)
 
